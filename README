@@ -1,6 +1,6 @@
-wmctrl go bindings
+# wmctrl go bindings
 
-License:
+## License:
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -15,11 +15,18 @@ License:
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
     https://www.gnu.org/licenses/gpl-3.0.txt
 
-Purpose:
-Hastily thrown together wmctrl bindings (relies on the executable) so that you can use 
-wmctrl from within go. (Linux and maybe BSD only)
+## Purpose:
+Hastily thrown together wmctrl bindings (relies on the executable) so that you can use wmctrl from within go. (Linux and maybe BSD only).
 
-Usage:
+This has limited scope because:
+
+* wmctrl only works on EWMH/NetWM compatible X Window Managers
+* I doubt this will work on Wayland (ydotool? Requires privileges to /dev/uinput)
+
+## Dependencies:
+xprop and wmctrl binaries somewhere in the path.
+
+## Usage:
 Example:
 ```
 import(
@@ -31,5 +38,60 @@ baseWindow := window.Get_Active()
 baseWindow.Resize_and_move(0,0,100,100)
 ```
 
-Dependencies:
-xprop and wmctrl binaries somewhere in the path.
+## Documentation:
+### Window
+- New()
+    -  Description: Initializer for Window class
+    -  Parameters: None
+    -  Returns: Window object
+
+- Get_Active()
+    - Description: Get the currently selected window.
+    - Parameters: None
+    - Returns: Basewindow object
+
+- By_Class(class string)
+    - Description: Get a window based on the class.
+    - Parameters: class
+    - Returns: Basewindow object
+
+- By_ID(id string)
+    - Description: Get a window based on an id. The id is a hexidecimal number.
+    - Parameters: id (as a string)
+    - Returns: Basewindow object
+
+- By_Name(name string)
+    - Description: Get a window based on name.
+    - Parameters: Name
+    - Returns: Basewindow object
+
+- By_Name_Endswith(suffix string)
+    - Description: Get a window based on end of name.
+    - Parameters: suffix
+    - Returns: Basewindow object
+
+- By_Name_Startswith(prefix string)
+    - Description: Get a window based on beginning of name.
+    - Parameters: prefix
+    - Returns: Basewindow object
+
+- List()
+    - Description: Returns windows currently being controlled and populates Window.WindowList
+    - Parameters: None
+    - Returns: []*BaseWindow
+
+### BaseWindow
+- IsNull()
+    - Description: Indicates if a BaseWindow object has been initialized.
+    - Parameters: None
+    - Returns: boolean. True if object is null.
+
+- Activate()
+    - Description: Activates (brings to the forefront) the window.
+    - Parameters: None
+    - Returns: None
+
+- Resize_and_move(x int, y int, w int, h int)
+    - Description: Resizes and moves the window.
+    - Parameters: None
+    - Returns: None
